@@ -78,7 +78,7 @@ const flowOption1 = addKeyword(EVENTS.ACTION)
     media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/1.6.jpeg?v=1718073426662'
 })
 .addAnswer(' ', {
-    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/1.7.jpeg?v=1718073426046'
+    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/1.7.jpeg?v=1718394335275'
 })
 .addAnswer(opcion1
     ,
@@ -144,7 +144,7 @@ const flowOption2 = addKeyword(EVENTS.ACTION)
     }
 );
 
-const flowPrincipal = addKeyword(['Hola', 'informacion','InformaciÓn','información','Informacion'])
+const flowPrincipal = addKeyword(['Hola', 'informacion','InformaciÓn','información','Informacion','precio','Precio'    ])
 .addAnswer(saludo, {
     delay: 4000,
 })
