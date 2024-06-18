@@ -6,20 +6,51 @@ const MockAdapter = require('@bot-whatsapp/database/mock');
 const path = require('path');
 const fs = require('fs');
 
-const menuPath = path.join(__dirname, "mensajes", "menu.txt");
-const menu = fs.readFileSync(menuPath, "utf8");
-const opcion1Path = path.join(__dirname, "mensajes", "opcion1.txt");
-const opcion1 = fs.readFileSync(opcion1Path, "utf8");
-const opcion2Path = path.join(__dirname, "mensajes", "opcion2.txt");
-const opcion2 = fs.readFileSync(opcion2Path, "utf8");
-const saludoPath = path.join(__dirname, "mensajes", "saludo.txt");
-const saludo = fs.readFileSync(saludoPath, "utf8");
-const invalidoPath = path.join(__dirname, "mensajes", "invalido.txt");
-const invalido = fs.readFileSync(invalidoPath, "utf8");
-
+const flowDespedida = addKeyword(EVENTS.ACTION)
+.addAnswer('Gracias a ti por tu interés 😊. Recuerda que también hacemos muebles a medida personalizados. ¡Estamos aquí para ayudarte en lo que necesites!', {
+    delay: 2000
+})
 const flowCompra = addKeyword(EVENTS.ACTION)
-.addAnswer('🛒 Este link te llevará a nuestro grupo de compra:  https://chat.whatsapp.com/CwcKwfpVwydHjfux6SGwgl', {
-    delay: 4000
+.addAnswer('🛒 Este link te llevará con un vendedor:  https://walink.co/7680e2', {
+    delay: 2000
+})
+.addAnswer('Fue un placer responder tus dudas 😊. Un asesor se pondrá en contacto contigo. ¡Gracias!',
+    { capture: true },
+    async (ctx, { gotoFlow, fallBack, flowDynamic }) => {
+        if (!["kytg"].includes(ctx.body)) {
+            return fallBack(
+                "Lo siento, ya no tengo más información, en el grupo se pondrán en contacto contigo."
+            );
+        }
+        switch (ctx.body) {
+            case "kytg":
+                return gotoFlow(flowCompra);
+        }
+    }
+)
+
+const flowCompraO = addKeyword(EVENTS.ACTION)
+.addAnswer('🛒 Este link te llevará con un vendedor:  https://walink.co/c6ca7c', {
+    delay: 2000
+})
+.addAnswer('Fue un placer responder tus dudas 😊. Un asesor se pondrá en contacto contigo. ¡Gracias!',
+    { capture: true },
+    async (ctx, { gotoFlow, fallBack, flowDynamic }) => {
+        if (!["kytg"].includes(ctx.body)) {
+            return fallBack(
+                "Lo siento, ya no tengo más información, en el grupo se pondrán en contacto contigo."
+            );
+        }
+        switch (ctx.body) {
+            case "kytg":
+                return gotoFlow(flowCompra);
+        }
+    }
+)
+
+const flowCompraV = addKeyword(EVENTS.ACTION)
+.addAnswer('🛒 Este link te llevará con un vendedor:  https://walink.co/94001a', {
+    delay: 2000
 })
 .addAnswer('Fue un placer responder tus dudas 😊. Un asesor se pondrá en contacto contigo. ¡Gracias!',
     { capture: true },
@@ -37,8 +68,8 @@ const flowCompra = addKeyword(EVENTS.ACTION)
 )
 
 const flowCompra2 = addKeyword(EVENTS.ACTION)
-.addAnswer('🛒 Este link te llevará a nuestro grupo de compra:  https://chat.whatsapp.com/CPoHovx2WAy94tRdMeMujx', {
-    delay: 4000
+.addAnswer('🛒 Este link te llevará con un vendedor:  https://walink.co/1ed81e', {
+    delay: 2000
 })
 .addAnswer('Fue un placer responder tus dudas 😊. Un asesor se pondrá en contacto contigo. ¡Gracias!',
     { capture: true },
@@ -54,39 +85,47 @@ const flowCompra2 = addKeyword(EVENTS.ACTION)
         }
     }
 )
-
+const flowCompra3 = addKeyword(EVENTS.ACTION)
+.addAnswer('🛒 Este link te llevará con un vendedor:  https://walink.co/37c06a', {
+    delay: 2000
+})
+.addAnswer('Fue un placer responder tus dudas 😊. Un asesor se pondrá en contacto contigo. ¡Gracias!',
+    { capture: true },
+    async (ctx, { gotoFlow, fallBack, flowDynamic }) => {
+        if (!["kytg"].includes(ctx.body)) {
+            return fallBack(
+                "En el grupo te podemos dar un trato especializado 🙂. ¡Nos vemos allí!"
+            );
+        }
+        switch (ctx.body) {
+            case "kytg":
+                return gotoFlow(flowCompra);
+        }
+    }
+)
 const flowOption1 = addKeyword(EVENTS.ACTION)
 .addAnswer('¡Perfecto! Te comparto todos los detalles del modelo, incluyendo medidas y precio 😊. Aquí tienes las imágenes del producto 📸:', {
-    delay: 4000
+    delay: 2000
 })
 .addAnswer(' ', {
-    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/1.1.jpeg?v=1718048350155'
+    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/1.1.jpeg?v=1718590093162'
 })
 .addAnswer(' ', {
-    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/1.2.jpeg?v=1718049348188'
+    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/1.2.jpeg?v=1718590092642'
 })
 .addAnswer(' ', {
-    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/1.3.jpeg?v=1718073418151'
+    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/1.3.jpeg?v=1718590092117'
 })
-.addAnswer(' ', {
-    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/1.4.jpeg?v=1718073417611'
+.addAnswer('Puedes elegir el color y logos 🎨.', {
+    delay: 1000
 })
-.addAnswer(' ', {
-    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/1.5.jpeg?v=1718073427349'
-})
-.addAnswer(' ', {
-    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/1.6.jpeg?v=1718073426662'
-})
-.addAnswer(' ', {
-    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/1.7.jpeg?v=1718394335275'
-})
-.addAnswer(opcion1
+.addAnswer(['¿Qué quieres hacer? 🤔', ' ', '-Escribe 1 si quieres contactar un vendedor', '-Escribe 2 si quieres ver otro modelo', '-Escribe 3 si quieres volver al menú principal', '-Escribe 4 si eso es todo, gracias']
     ,
     { capture: true },
     async (ctx, { gotoFlow, fallBack, flowDynamic }) => {
-        if (!["1", "2"].includes(ctx.body)) {
+        if (!["1", "2", "3", "4"].includes(ctx.body)) {
             return fallBack(
-                "Respuesta no válida, por favor selecciona una de las opciones: 1 o 2."
+                ["⚠️ Respuesta no válida. Por favor, selecciona una de las opciones:", " ","1️⃣ Quiero contactar un vendedor","2️⃣ Quiero ver otro modelo","3️⃣ Volver al menú principal","4️⃣ Eso es todo, gracias"]
             );
         }
         switch (ctx.body) {
@@ -94,45 +133,37 @@ const flowOption1 = addKeyword(EVENTS.ACTION)
                 return gotoFlow(flowCompra);
             case "2":
                 return gotoFlow(flowOption2);
+            case "3":
+                return gotoFlow(flowPrincipal);
+            case "4":
+                return gotoFlow(flowDespedida);
         }
     }
 );
 
 const flowOption2 = addKeyword(EVENTS.ACTION)
 .addAnswer('¡Perfecto! Te comparto todos los detalles del modelo, incluyendo medidas y precio 😊. Aquí tienes las imágenes del producto 📸:', {
-    delay: 4000
+    delay: 2000
 })
 .addAnswer(' ', {
-    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/2.1.jpeg?v=1718048353264'
+    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/2.1.jpeg?v=1718590091454'
 })
 .addAnswer(' ', {
-    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/2.2.jpeg?v=1718049344735'
+    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/2.2.jpeg?v=1718590090824 '
 })
 .addAnswer(' ', {
-    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/2.3.jpeg?v=1718073424146'
+    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/2.3.jpeg?v=1718590090247'
 })
-.addAnswer(' ', {
-    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/2.4.jpeg?v=1718073423542'
+.addAnswer('Puedes elegir el color del tapiz y del cuerpo 🎨.', {
+    delay: 1000
 })
-.addAnswer(' ', {
-    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/2.5.jpeg?v=1718073422969'
-})
-.addAnswer(' ', {
-    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/2.6.jpeg?v=1718073422286'
-})
-.addAnswer(' ', {
-    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/2.7.jpeg?v=1718073421684'
-})
-.addAnswer(' ', {
-    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/2.8.jpeg?v=1718073421094'
-})
-.addAnswer(opcion2
+.addAnswer(['¿Qué quieres hacer? 🤔', ' ', '-Escribe 1 si quieres contactar un vendedor', '-Escribe 2 si quieres ver otro modelo', '-Escribe 3 si quieres volver al menú principal', '-Escribe 4 si eso es todo, gracias']
     ,
     { capture: true },
     async (ctx, { gotoFlow, fallBack, flowDynamic }) => {
-        if (!["1", "2"].includes(ctx.body)) {
+        if (!["1", "2", "3", "4"].includes(ctx.body)) {
             return fallBack(
-                "Respuesta no válida, por favor selecciona una de las opciones: 1 o 2."
+                ["⚠️ Respuesta no válida. Por favor, selecciona una de las opciones:", "1️⃣ Quiero contactar un vendedor", "2️⃣ Quiero ver otro modelo", "3️⃣ Volver al menú principal", "4️⃣ Eso es todo, gracias"]
             );
         }
         switch (ctx.body) {
@@ -140,29 +171,73 @@ const flowOption2 = addKeyword(EVENTS.ACTION)
                 return gotoFlow(flowCompra2);
             case "2":
                 return gotoFlow(flowOption1);
+            case "3":
+                return gotoFlow(flowPrincipal);
+            case "4":
+                return gotoFlow(flowDespedida);
         }
     }
 );
 
-const flowPrincipal = addKeyword(['Hola', 'informacion','InformaciÓn','información','Informacion','precio','Precio'    ])
-.addAnswer(saludo, {
-    delay: 4000,
+const flowOption3 = addKeyword(EVENTS.ACTION)
+.addAnswer('¡Perfecto! Te comparto todos los detalles del modelo, incluyendo medidas y precio 😊. Aquí tienes las imágenes del producto 📸:', {
+    delay: 2000
+})
+.addAnswer('Zapatera Personalizada', {
+    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/1.1.jpeg?v=1718590093162'
 })
 .addAnswer(' ', {
-    delay: 2000,
-    media: 'https://cdn.glitch.global/ad284e18-93bd-472c-b6ff-158c814d7227/1.jpeg?v=1718045558493'
+    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/1.2.jpeg?v=1718590092642'
+})
+.addAnswer('Puedes elegir el color y logos 🎨.', {
+    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/1.3.jpeg?v=1718590092117'
+})
+.addAnswer('Zapatera Baúl', {
+    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/2.1.jpeg?v=1718590091454'
 })
 .addAnswer(' ', {
+    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/2.2.jpeg?v=1718590090824 '
+})
+.addAnswer('Puedes elegir el color del tapiz y del cuerpo 🎨.', {
+    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/2.3.jpeg?v=1718590090247'
+})
+.addAnswer(['¿Qué quieres hacer? 🤔', ' ', '-Escribe 1 si quieres contactar un vendedor', '-Escribe 2 si quieres volver al menú principal', '-Escribe 3 si eso es todo, gracias']
+    ,
+    { capture: true },
+    async (ctx, { gotoFlow, fallBack, flowDynamic }) => {
+        if (!["1", "2", "3"].includes(ctx.body)) {
+            return fallBack(
+                ["⚠️ Respuesta no válida. Por favor, selecciona una de las opciones:", "1️⃣ Quiero contactar un vendedor", "2️⃣ Volver al menú principal", "3️⃣ Eso es todo, gracias"]
+            );
+        }
+        switch (ctx.body) {
+            case "1":
+                return gotoFlow(flowCompra3);
+            case "2":
+                return gotoFlow(flowPrincipal);
+             case "3":
+                return gotoFlow(flowDespedida);
+        }
+    }
+);
+
+const flowZapatera = addKeyword(EVENTS.ACTION)
+.addAnswer('Te comparto fotos de los modelos disponibles', {
     delay: 2000,
-    media: 'https://cdn.glitch.global/ad284e18-93bd-472c-b6ff-158c814d7227/2.jpeg?v=1718045557949'
+})
+.addAnswer(' ', {
+    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/1.jpeg?v=1718591090406'
+})
+.addAnswer(' ', {
+    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/2.jpeg?v=1718591090897'
 })
 .addAnswer(
-        menu,
+        ['¿Quieres ver detalles como medidas y precios de los modelos? 🤔', ' ', '-Escribe 1 si quieres ver el modelo 1', '-Escribe 2 si quieres ver el modelo 2', '-Escribe 3 si quieres ver ambos'],
         { capture: true },
         async (ctx, { gotoFlow, fallBack, flowDynamic }) => {
-            if (!["1", "2"].includes(ctx.body)) {
+            if (!["1", "2", "3"].includes(ctx.body)) {
                 return fallBack(
-                    invalido
+                    ["⚠️ Respuesta no válida. Por favor, selecciona una de las opciones:", " ", "1️⃣ Ver modelo 1", "2️⃣ Ver modelo 2", "3️⃣ Ver ambos"]
                 );
             }
             switch (ctx.body) {
@@ -170,13 +245,98 @@ const flowPrincipal = addKeyword(['Hola', 'informacion','InformaciÓn','informac
                     return gotoFlow(flowOption1);
                 case "2":
                     return gotoFlow(flowOption2);
+                case "3":
+                    return gotoFlow(flowOption3);
+            }
+        }
+);
+
+const flowOferta = addKeyword(EVENTS.ACTION)
+.addAnswer('Te comparto la oferta', {
+    delay: 2000,
+})
+.addAnswer(' ', {
+    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/o1.jpeg?v=1718590093673'
+})
+.addAnswer(
+        ['¿Qué quieres hacer? 🤔', ' ', '-Escribe 1 si quieres contactar a un vendedor', '-Escribe 2 si quieres volver al menú principal', '-Escribe 3 si eso es todo'],
+        { capture: true },
+        async (ctx, { gotoFlow, fallBack, flowDynamic }) => {
+            if (!["1", "2", "3"].includes(ctx.body)) {
+                return fallBack(
+                    ["⚠️ Respuesta no válida. Por favor, selecciona una de las opciones:", " ", "1️⃣ Contactar a un vendedor", "2️⃣ Volver al menú principal", "3️⃣ Eso es todo"]
+                );
+            }
+            switch (ctx.body) {
+                 case "1":
+                    return gotoFlow(flowCompraO);
+                 case "2":
+                    return gotoFlow(flowPrincipal);
+                 case "3":
+                    return gotoFlow(flowDespedida);
+            }
+        }
+);
+
+const flowVeladora = addKeyword(EVENTS.ACTION)
+.addAnswer('Te comparto fotos de los veladores disponibles 📸.', {
+    delay: 2000,
+})
+.addAnswer(' ', {
+    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/v1.jpeg?v=1718590095796'
+})
+.addAnswer(' ', {
+    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/v2.jpeg?v=1718590095282'
+})
+.addAnswer(' ', {
+    media: 'https://cdn.glitch.global/23403b3f-430c-4936-88ba-d11c5d481cf3/v3.jpeg?v=1718590094175'
+})
+.addAnswer(
+        ['¿Qué quieres hacer? 🤔', ' ', '-Escribe 1 si quieres ver la oferta del día', '-Escribe 2 si quieres contactar a un vendedor', '-Escribe 3 si eso es todo'],
+        { capture: true },
+        async (ctx, { gotoFlow, fallBack, flowDynamic }) => {
+            if (!["1", "2", "3"].includes(ctx.body)) {
+                return fallBack(
+                    ["⚠️ Respuesta no válida. Por favor, selecciona una de las opciones:", " ", "1️⃣ Ver la oferta del día", "2️⃣ Contactar a un vendedor", "3️⃣ Eso es todo"]
+                );
+            }
+            switch (ctx.body) {
+                case "1":
+                    return gotoFlow(flowOferta);
+                case "2":
+                    return gotoFlow(flowCompraV);
+                case "3":
+                    return gotoFlow(flowDespedida);
+            }
+        }
+);
+
+const flowPrincipal = addKeyword(['Hola', 'informacion','InformaciÓn','información','Informacion','precio','Precio'])
+.addAnswer('Hola 😊, somos Imperio Store, especialistas en muebles de melamina ✨', {
+    delay: 2000,
+})
+
+.addAnswer(
+    ['¿En qué estás interesado hoy? 🤔', ' ','-Escribe 1 para ver Zapateras','-Escribe 2 para ver Veladores'],
+        { capture: true },
+        async (ctx, { gotoFlow, fallBack, flowDynamic }) => {
+            if (!["1", "2"].includes(ctx.body)) {
+                return fallBack(
+                    ["⚠️ Respuesta no válida. Por favor, selecciona una de las opciones:", " ", "1️⃣ Zapateras", "2️⃣ Veladores"]
+                );
+            }
+            switch (ctx.body) {
+                case "1":
+                    return gotoFlow(flowZapatera);
+                case "2":
+                    return gotoFlow(flowVeladora);
             }
         }
 );
 
 const main = async () => {
     const adapterDB = new MockAdapter();
-    const adapterFlow = createFlow([flowPrincipal, flowOption1, flowOption2, flowCompra, flowCompra2]); // Asegúrate de que esto sea un array
+    const adapterFlow = createFlow([flowPrincipal, flowOferta, flowVeladora, flowDespedida, flowOption1, flowOption2, flowCompra, flowCompra2, flowCompra3, flowZapatera, flowOption3, flowCompraO, flowCompraV]); // Asegúrate de que esto sea un array
     const adapterProvider = createProvider(BaileysProvider);
 
     createBot({
@@ -188,4 +348,4 @@ const main = async () => {
     QRPortalWeb()
 }
 
-main()  
+main() 
